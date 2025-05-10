@@ -43,6 +43,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("cancel-btn") && !e.target.disabled) {
+    const button = e.target;
+    const bookingId = button.dataset.id;
+
+    // Ask the employee for their name
+    const employeeName = prompt("Please enter your name:");
+    if (!employeeName) {
+      alert("Employee name is required to cancel the booking.");
+      return;
+    }
+
+    if (confirm(`Cancel booking ${bookingId}?`)) {
+      // Disable button to prevent double-click
+      button.disabled = true;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/cancel", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookingId, employeeName })
+        });
+
+        const result = await res.json();
+        alert(result.message || result.error);
+        location.reload();
+      } catch (err) {
+        console.error("Error cancelling booking:", err);
+        alert("Something went wrong. Please try again.");
+        button.disabled = false; // Re-enable on failure
+      }
+    }
+  }
+});
+
 function parseExtras(extrasJSON) {
   try {
     const extras = JSON.parse(extrasJSON || "[]");
@@ -52,27 +87,6 @@ function parseExtras(extrasJSON) {
     return "-";
   }
 }
-
-function maskCard(cardNumber) {
-  if (!cardNumber || cardNumber.length < 4) return "****";
-  return "**** **** **** " + cardNumber.slice(-4);
-}
-
-document.addEventListener("click", async (e) => {
-  if (e.target.classList.contains("cancel-btn") && !e.target.disabled) {
-    const bookingId = e.target.dataset.id;
-    if (confirm(`Cancel booking ${bookingId}?`)) {
-      const res = await fetch("http://localhost:5000/api/cancel", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookingId })
-      });
-      const result = await res.json();
-      alert(result.message || result.error);
-      location.reload();
-    }
-  }
-});
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
