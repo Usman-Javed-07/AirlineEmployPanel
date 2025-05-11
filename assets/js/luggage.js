@@ -7,12 +7,28 @@ document.getElementById("luggageForm").addEventListener("submit", async function
   const luggageId = Math.floor(100000 + Math.random() * 900000);
 
   if (isNaN(numBags) || numBags < 1) {
-    alert("Please enter a valid number of bags.");
+    Toastify({
+  text: "Please enter a valid number of bags.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
     return;
   }
 
   if (numBags > 5) {
-    alert("Only a maximum of 5 bags are allowed.");
+   Toastify({
+  text: "Only a maximum of 5 bags are allowed.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
     return;
   }
 
@@ -21,12 +37,28 @@ document.getElementById("luggageForm").addEventListener("submit", async function
     const checkBookingRes = await fetch(`${BASE_URL}/bookings/${bookingId}`);
     if (!checkBookingRes.ok) {
       const errorData = await checkBookingRes.json();
-      alert("Error: " + (errorData.error || "Invalid booking ID."));
+      Toastify({
+  text: "Error: " + (errorData.error || "Invalid booking ID."),
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
       return;
     }
   } catch (err) {
     console.error("Booking check failed:", err);
-    alert("Server error while validating booking ID.");
+    Toastify({
+  text: "Server error while validating booking ID.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
     return;
   }
 
@@ -35,12 +67,28 @@ document.getElementById("luggageForm").addEventListener("submit", async function
     const luggageCheckRes = await fetch(`${BASE_URL}/luggage/check/${bookingId}`);
     const luggageData = await luggageCheckRes.json();
     if (luggageData.exists) {
-      alert("Luggage already checked in for this booking ID.");
+     Toastify({
+  text: "Luggage already checked in for this booking ID.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
       return;
     }
   } catch (err) {
     console.error("Luggage existence check failed:", err);
-    alert("Server error while checking luggage duplication.");
+    Toastify({
+  text: "Server error while checking luggage duplication.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
     return;
   }
 
@@ -63,12 +111,36 @@ document.getElementById("luggageForm").addEventListener("submit", async function
 
     const data = await res.json();
     if (res.ok) {
-      alert("Luggage check-in successful!");
+      Toastify({
+  text: "Luggage check-in successful!",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#4CAF50", // Green for success
+  close: true,
+}).showToast();
+
     } else {
-      alert("Error: " + data.error);
+      Toastify({
+  text: "Error: " + (data.error || "An unexpected error occurred."),
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
     }
   } catch (err) {
     console.error("Failed to submit luggage data:", err);
-    alert("Server error while checking in luggage.");
+    Toastify({
+  text: "Server error while checking in luggage.",
+  duration: 5000, // Adjust duration as needed
+  gravity: "top",
+  position: "right",
+  backgroundColor: "#f44336", // Red for error
+  close: true,
+}).showToast();
+
   }
 });
