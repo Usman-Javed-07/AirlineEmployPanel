@@ -18,13 +18,29 @@ h1 {
   font-size: 24px;
 }
 
-nav ul {
+nav {
+    background-color: #333;
+  }
+  
+
+ .logo-image {
+    width: 60px;
+    height: 60px;
+  }
+  @media screen and (max-width:500px) {
+     .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+  }
+  nav ul {
   list-style: none;
-  padding: 10px;
   display: flex;
   justify-content: center;
   gap: 30px;
   background-color: #333;
+  align-items: center;
+  padding: 10px;
 }
 
 nav a {
@@ -33,6 +49,25 @@ nav a {
 }
 nav a:hover {
   text-decoration: underline;
+}
+  
+ .footer-p {
+  margin: 0px !important;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #0044cc;
+  color: white;
+  padding: 14px 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px !important;
 }
 
 .container {
@@ -48,6 +83,7 @@ form {
   max-width: 800px;
   margin: 0 auto;
   margin-top: 20px;
+  margin-bottom: 60px;
 }
 
 form input,
@@ -78,11 +114,15 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 60px;
+
 }
 
 table th,
 table td {
-  padding: 10px;
+  padding: 15px;
   border: 1px solid #ddd;
   text-align: left;
 }
@@ -119,6 +159,9 @@ form label {
   overflow-x: auto;
   width: 100%;
   -webkit-overflow-scrolling: touch; 
+  white-space: nowrap;
+  max-width: 1400px;
+  margin:  0 auto;
 }
 
 .table-scroll::-webkit-scrollbar {
