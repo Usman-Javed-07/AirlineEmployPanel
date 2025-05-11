@@ -40,6 +40,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     console.error("Failed to load bookings:", error);
     tableBody.innerHTML = `<tr><td colspan="25">Error loading bookings.</td></tr>`;
+    Toastify({
+      text: "Failed to load bookings.",
+      duration: 3000,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "#f44336",
+    }).showToast();
   }
 });
 
@@ -48,32 +55,83 @@ document.addEventListener("click", async (e) => {
     const button = e.target;
     const bookingId = button.dataset.id;
 
-    // Ask the employee for their name
-    const employeeName = prompt("Please enter your name:");
-    if (!employeeName) {
-      alert("Employee name is required to cancel the booking.");
-      return;
-    }
+    try {
+      // Ask for employee name
+      const { isConfirmed, value: employeeName } = await Swal.fire({
+        title: 'Enter your name',
+        input: 'text',
+        inputLabel: 'Employee Name',
+        inputPlaceholder: 'Type your name here',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          if (!value) return 'Name is required!';
+        }
+      });
 
-    if (confirm(`Cancel booking ${bookingId}?`)) {
-      // Disable button to prevent double-click
+      if (!isConfirmed || !employeeName) return;
+
+      // Confirm cancellation
+      const confirmCancel = await Swal.fire({
+        title: `Cancel booking ${bookingId}?`,
+        text: "This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, cancel it!",
+      });
+
+      if (!confirmCancel.isConfirmed) return;
+
+      // Disable button to prevent double click
       button.disabled = true;
 
-      try {
-        const res = await fetch(`${BASE_URL}/cancel`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ bookingId, employeeName })
-        });
+      // Cancel API request
+      const res = await fetch(`${BASE_URL}/cancel`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId, employeeName })
+      });
 
-        const result = await res.json();
-        alert(result.message || result.error);
-        location.reload();
-      } catch (err) {
-        console.error("Error cancelling booking:", err);
-        alert("Something went wrong. Please try again.");
-        button.disabled = false; // Re-enable on failure
+      const result = await res.json();
+
+      if (result.error) {
+        Toastify({
+          text: result.error,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#f44336",
+          close: true,
+        }).showToast();
+        button.disabled = false; // re-enable if error
+      } else {
+        Toastify({
+          text: result.message || "Booking cancelled successfully!",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#4CAF50",
+          close: true,
+        }).showToast();
+
+        // Update row in UI
+        const row = button.closest("tr");
+        const statusCell = row.children[13];
+        statusCell.textContent = "cancelled";
+
+        button.classList.add("disabled-btn");
       }
+
+    } catch (err) {
+      console.error("Error cancelling booking:", err);
+      Toastify({
+        text: "Something went wrong. Please try again.",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#f44336",
+        close: true,
+      }).showToast();
+      button.disabled = false;
     }
   }
 });
