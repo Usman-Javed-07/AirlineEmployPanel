@@ -18,7 +18,7 @@ document.getElementById("luggageForm").addEventListener("submit", async function
 
   // ✅ Check if booking ID is valid
   try {
-    const checkBookingRes = await fetch(`http://localhost:5000/api/bookings/${bookingId}`);
+    const checkBookingRes = await fetch(`${BASE_URL}/bookings/${bookingId}`);
     if (!checkBookingRes.ok) {
       const errorData = await checkBookingRes.json();
       alert("Error: " + (errorData.error || "Invalid booking ID."));
@@ -32,7 +32,7 @@ document.getElementById("luggageForm").addEventListener("submit", async function
 
   // ✅ Check if luggage already exists for this booking ID
   try {
-    const luggageCheckRes = await fetch(`http://localhost:5000/api/luggage/check/${bookingId}`);
+    const luggageCheckRes = await fetch(`${BASE_URL}/luggage/check/${bookingId}`);
     const luggageData = await luggageCheckRes.json();
     if (luggageData.exists) {
       alert("Luggage already checked in for this booking ID.");
@@ -53,7 +53,7 @@ document.getElementById("luggageForm").addEventListener("submit", async function
 
   // ✅ Submit luggage
   try {
-    const res = await fetch("http://localhost:5000/api/luggage", {
+    const res = await fetch(`${BASE_URL}/luggage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

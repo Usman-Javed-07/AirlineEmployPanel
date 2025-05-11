@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tableBody = document.querySelector("#bookingsTable tbody");
 
   try {
-    const response = await fetch("http://localhost:5000/api/bookings");
+    const response = await fetch(`${BASE_URL}/bookings`);
     const bookings = await response.json();
 
     if (Array.isArray(bookings) && bookings.length > 0) {
@@ -60,7 +60,7 @@ document.addEventListener("click", async (e) => {
       button.disabled = true;
 
       try {
-        const res = await fetch("http://localhost:5000/api/cancel", {
+        const res = await fetch(`${BASE_URL}/cancel`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ bookingId, employeeName })
