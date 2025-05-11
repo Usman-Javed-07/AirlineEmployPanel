@@ -19,21 +19,20 @@ h1 {
 }
 
 nav {
-    background-color: #333;
-  }
-  
+  background-color: #333;
+}
 
- .logo-image {
-    width: 60px;
-    height: 60px;
-  }
-  @media screen and (max-width:500px) {
-     .logo-image {
+.logo-image {
+  width: 60px;
+  height: 60px;
+}
+@media screen and (max-width: 500px) {
+  .logo-image {
     width: 40px;
     height: 40px;
   }
-  }
-  nav ul {
+}
+nav ul {
   list-style: none;
   display: flex;
   justify-content: center;
@@ -50,8 +49,8 @@ nav a {
 nav a:hover {
   text-decoration: underline;
 }
-  
- .footer-p {
+
+.footer-p {
   margin: 0px !important;
 }
 footer {
@@ -117,7 +116,6 @@ table {
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 60px;
-
 }
 
 table th,
@@ -145,8 +143,8 @@ table th {
 #flightsTable {
   padding: 50px;
   margin: 0 auto;
-  overflow-x:scroll;
-    scrollbar-width: none;
+  overflow-x: scroll;
+  scrollbar-width: none;
   -ms-overflow-style: none;
 }
 form label {
@@ -158,31 +156,52 @@ form label {
 .table-scroll {
   overflow-x: auto;
   width: 100%;
-  -webkit-overflow-scrolling: touch; 
+  -webkit-overflow-scrolling: touch;
   white-space: nowrap;
   max-width: 1400px;
-  margin:  0 auto;
+  margin: 0 auto;
 }
 
 .table-scroll::-webkit-scrollbar {
-  width: 5px;              
-  height: 6px;              
+  width: 5px;
+  height: 6px;
 }
 
 .table-scroll::-webkit-scrollbar-track {
-  background: #f0f0f0;     
+  background: #f0f0f0;
 }
 
 .table-scroll::-webkit-scrollbar-thumb {
-  background: #888;        
+  background: #888;
 }
 
 .table-scroll::-webkit-scrollbar-thumb:hover {
-  background: #555;      
+  background: #555;
 }
 
 .disabled-btn {
   background-color: lightgray !important;
   color: #666;
   cursor: not-allowed;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  display: block;
+  font-weight: bold;
+}
+input {
+  padding: 6px;
+  width: 250px;
+}
+#tag {
+  margin-top: 20px;
+  border: 1px solid #000;
+  padding: 10px;
+  display: none;
+}
+button {
+  padding: 10px 15px;
 }
