@@ -160,6 +160,7 @@ form label {
   white-space: nowrap;
   max-width: 1400px;
   margin: 0 auto;
+   margin-bottom: 60px;
 }
 
 .table-scroll::-webkit-scrollbar {
